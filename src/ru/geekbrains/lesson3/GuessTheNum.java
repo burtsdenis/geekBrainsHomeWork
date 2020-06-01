@@ -1,20 +1,33 @@
 package ru.geekbrains.lesson3;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 public class GuessTheNum {
-    public static final Scanner scan = new Scanner(System.in);
-    public static final int easyRange = 9;
-    public static final int mediumRange = 19;
-    public static final int hardRange = 29;
-    public static String difficultyLevel;
+    private static final Scanner scan = new Scanner(System.in);
+    private static final int easyRange = 9;
+    private static final int mediumRange = 19;
+    private static final int hardRange = 29;
+    private static String difficultyLevel;
 
-    public static void initializeTheGame() throws IOException {
+    public static void initializeTheGame() {
         greetingsPrint();
         chooseTheDifficult();
+        System.out.print("One more game?\nYes/No: ");
+        String command = scan.next();
+        switch (command) {
+            case "Yes":
+            case "1":
+                initializeTheGame();
+                break;
+            case "No":
+            case "2":
+                System.out.println("Bye!");
+                break;
+        }
+        scan.close();
+
     }
-    public static void playGame(int maxRange) {
+    private static void playGame(int maxRange) {
         System.out.println("Playing " + difficultyLevel + " game!");
         int puzzledNumber = (int) (Math.random() * maxRange);
         while (true) {
@@ -33,7 +46,7 @@ public class GuessTheNum {
         }
      }
 
-    public static void playHardcoreGame() {
+    private static void playHardcoreGame() {
         System.out.println("Playing " + difficultyLevel.toUpperCase() + " game!");
         int puzzledNumber = (int) (Math.random() * 49);
         int counter = 0;
@@ -59,9 +72,9 @@ public class GuessTheNum {
         }
     }
 
-    public static void chooseTheDifficult() {
+    private static void chooseTheDifficult() {
         System.out.print("Your difficulty: ");
-        difficultyLevel = scan.nextLine();
+        difficultyLevel = scan.next();
         switch (difficultyLevel.toUpperCase().charAt(0) + difficultyLevel.substring(1)) {
             case "Easy":
             case "1":
@@ -89,7 +102,7 @@ public class GuessTheNum {
         }
     }
 
-    public static void greetingsPrint(){
+    private static void greetingsPrint(){
         System.out.println("Welcome to the \"Guess the number\" game!\nChoose the difficulty:\n" +
                 "1. Easy (range is from 0 to 9)\n" +
                 "2. Medium (range is from 0 to 19)\n" +
@@ -97,5 +110,4 @@ public class GuessTheNum {
                 "4. Hardcore (range is from 0 to 49 and the amount of the available moves is restricted to 10)"
         );
     }
-
 }
