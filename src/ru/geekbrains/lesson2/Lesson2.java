@@ -59,11 +59,11 @@ public class Lesson2 {
     private static void minAndMax(int[] arr) {
         int minimum = arr[0];
         int maximum = arr[0];
-        for (int value : arr) {
-            if (value > maximum) {
-                maximum = value;
-            } else if (value < minimum) {
-                minimum = value;
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > maximum){
+                maximum = arr[i];
+            } else if (arr[i] < minimum) {
+                minimum = arr[i];
             }
         }
     }
