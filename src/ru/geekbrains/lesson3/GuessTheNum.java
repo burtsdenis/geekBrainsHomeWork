@@ -1,19 +1,17 @@
 package ru.geekbrains.lesson3;
 
-import java.util.Scanner;
 
 public class GuessTheNum {
-    private static final Scanner scan = new Scanner(System.in);
-    private static final int easyRange = 9;
-    private static final int mediumRange = 19;
-    private static final int hardRange = 29;
-    private static String difficultyLevel;
+    private static final int EASY_RANGE = 9;
+    private static final int MEDIUM_RANGE = 19;
+    private static final int HARD_RANGE = 29;
+    private static String DIFFICULTY_LEVEL;
 
     public static void initializeTheGame() {
         greetingsPrint();
         chooseTheDifficult();
         System.out.print("One more game?\nYes/No: ");
-        String command = scan.next();
+        String command = Lesson3.SCAN.next();
         switch (command) {
             case "Yes":
             case "1":
@@ -24,15 +22,14 @@ public class GuessTheNum {
                 System.out.println("Bye!");
                 break;
         }
-        scan.close();
-
     }
+
     private static void playGame(int maxRange) {
-        System.out.println("Playing " + difficultyLevel + " game!");
+        System.out.println("Playing " + DIFFICULTY_LEVEL + " game!");
         int puzzledNumber = (int) (Math.random() * maxRange);
         while (true) {
             System.out.print("Enter the number: ");
-            int askedNumber = scan.nextInt();
+            int askedNumber = Lesson3.SCAN.nextInt();
             if (askedNumber == puzzledNumber) {
                 System.out.println("You win, congratulations!");
                 break;
@@ -44,10 +41,10 @@ public class GuessTheNum {
                 }
             }
         }
-     }
+    }
 
     private static void playHardcoreGame() {
-        System.out.println("Playing " + difficultyLevel.toUpperCase() + " game!");
+        System.out.println("Playing " + DIFFICULTY_LEVEL.toUpperCase() + " game!");
         int puzzledNumber = (int) (Math.random() * 49);
         int counter = 0;
         while (true) {
@@ -56,7 +53,7 @@ public class GuessTheNum {
                 break;
             }
             System.out.print("Enter the number: ");
-            int askedNumber = scan.nextInt();
+            int askedNumber = Lesson3.SCAN.nextInt();
             if (askedNumber == puzzledNumber) {
                 System.out.println("You win, congratulations!");
                 break;
@@ -74,26 +71,26 @@ public class GuessTheNum {
 
     private static void chooseTheDifficult() {
         System.out.print("Your difficulty: ");
-        difficultyLevel = scan.next();
-        switch (difficultyLevel.toUpperCase().charAt(0) + difficultyLevel.substring(1)) {
+        DIFFICULTY_LEVEL = Lesson3.SCAN.next();
+        switch (DIFFICULTY_LEVEL.toUpperCase().charAt(0) + DIFFICULTY_LEVEL.substring(1)) {
             case "Easy":
             case "1":
-                difficultyLevel = "easy";
-                playGame(easyRange);
+                DIFFICULTY_LEVEL = "easy";
+                playGame(EASY_RANGE);
                 break;
             case "Medium":
             case "2":
-                difficultyLevel = "medium";
-                playGame(mediumRange);
+                DIFFICULTY_LEVEL = "medium";
+                playGame(MEDIUM_RANGE);
                 break;
             case "Hard":
             case "3":
-                difficultyLevel = "hard";
-                playGame(hardRange);
+                DIFFICULTY_LEVEL = "hard";
+                playGame(HARD_RANGE);
                 break;
             case "Hardcore":
             case "4":
-                difficultyLevel = "hardcore";
+                DIFFICULTY_LEVEL = "hardcore";
                 playHardcoreGame();
                 break;
             default:
@@ -102,7 +99,7 @@ public class GuessTheNum {
         }
     }
 
-    private static void greetingsPrint(){
+    private static void greetingsPrint() {
         System.out.println("Welcome to the \"Guess the number\" game!\nChoose the difficulty:\n" +
                 "1. Easy (range is from 0 to 9)\n" +
                 "2. Medium (range is from 0 to 19)\n" +

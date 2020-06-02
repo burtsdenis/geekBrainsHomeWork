@@ -3,8 +3,8 @@ package ru.geekbrains.lesson3;
 import java.util.Scanner;
 
 public class GuessTheWord {
-    private static final Scanner scan = new Scanner(System.in);
-    private static final String[] words = {
+
+    private static final String[] WORDS = {
             "apple", "orange", "lemon", "banana", "apricot", "avocado",
             "broccoli", "carrot", "cherry", "garlic", "grape", "melon",
             "leak", "kiwi", "mango", "mushroom", "nut", "olive", "pea",
@@ -14,14 +14,29 @@ public class GuessTheWord {
     public static void initializeTheGame() {
         System.out.println("Welcome to the \"Guess the word\" game!\n" +
                 "The word has been chosen, try to Guess it!");
-        String puzzledWord = words[(int) (Math.random() * words.length - 1)];
-        guessTheWord();
-
+        String puzzledWord = WORDS[(int) (Math.random() * WORDS.length - 1)];
+        StringBuilder hidedWord = new StringBuilder("##############");
+        boolean notGuessed = true;
+        while (notGuessed) {
+            notGuessed = guessTheWord(puzzledWord, hidedWord);
+        }
     }
 
-    private static void guessTheWord() {
-        System.out.print("Enter the word: ");
-        String guessTry = scan.next();
-        System.out.println(guessTry);
+    private static boolean guessTheWord(String puzzledWord, StringBuilder hidedWord) {
+        System.out.print("Puzzled Word: ");
+        System.out.print(hidedWord);
+        System.out.print("\nEnter the word: ");
+        String guessTry = Lesson3.SCAN.next();
+        if (guessTry.equals(puzzledWord)) {
+            System.out.println("You win! Congrats!");
+            return false;
+        }
+        int minLength = Math.min(guessTry.length(), puzzledWord.length());
+        for (int i = 0; i < minLength; i++) {
+            if (guessTry.charAt(i) == puzzledWord.charAt(i)) {
+                hidedWord.setCharAt(i, guessTry.charAt(i));
+            }
+        }
+        return true;
     }
 }
