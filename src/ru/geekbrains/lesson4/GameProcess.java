@@ -5,7 +5,7 @@ import static ru.geekbrains.lesson4.Main.scan;
 import static ru.geekbrains.lesson4.UI.printGameBoard;
 
 public class GameProcess {
-    public static int turnNumber = 0;
+    private static int turnNumber = 0;
     public static char EMPTY = ' ';
     public static int BOARD_SIZE = 3;
     public static String GAME_MODE;
@@ -22,20 +22,14 @@ public class GameProcess {
                 Player player1 = new Player(scan.next(), 'X');
                 System.out.print("Enter name for player №" + Player.playersCount + ": ");
                 Player player2 = new Player(scan.next(), 'O');
-                pvpGame(player1, player2);
                 initGameBoard();
+                pvpGame(player1, player2);
                 break;
             case "2":
                 System.out.print("Enter your name: " + Player.playersCount + ": ");
                 Player player = new Player(scan.next(), 'X');
+                initGameBoard();
                 pvcGame(player);
-                initGameBoard();
-                break;
-            case "3":
-                System.out.print("Enter your name: " + Player.playersCount + ": ");
-                Player playerH = new Player(scan.next(), 'X');
-                pvcGame(playerH);
-                initGameBoard();
                 break;
         }
 
@@ -57,13 +51,14 @@ public class GameProcess {
                 System.out.println("Your input is incorrect, both values must be integer!");
                 continue;
             }
-            turnNumber++;
-            if (turnNumber % 2 == 0) {
-                makeTurn(x, y, player1);
-            } else {
-                makeTurn(x, y, player2);
+            if (checkInput(x, y) && turnAllowed(x, y)) {
+                if (turnNumber % 2 == 0) {
+                    makeTurn(x, y, player1);
+                } else {
+                    makeTurn(x, y, player2);
+                }
+                turnNumber++;
             }
-
         }
     }
 
@@ -72,12 +67,19 @@ public class GameProcess {
     }
 
     static void makeTurn(int x, int y, Player player) {
-        if (checkInput(x, y) && turnAllowed(x, y)) {
-            gameBoard[y][x] = player.playingMark;
-        }
-        if (turnNumber > (gameBoard.length - 1) * 2) {
+        gameBoard[x][y] = player.playingMark;
+
+        if (turnNumber > BOARD_SIZE) {
             if (checkWinner(x, y, player)) {
+                printGameBoard();
                 System.out.println("Player " + player.name + " wins!");
+                System.exit(0);
+            }
+        }
+
+        if (turnNumber > (BOARD_SIZE * BOARD_SIZE - 1)) {
+            if (checkDraw()) {
+                System.out.println("Draw!");
                 System.exit(0);
             }
         }
@@ -85,10 +87,10 @@ public class GameProcess {
 
     static boolean turnAllowed(int x, int y) {
         if (gameBoard[x][y] != EMPTY) {
-            return true;
-        } else {
             System.out.println("This field is already taken.\nChoose another field!");
             return false;
+        } else {
+            return true;
         }
     }
 
@@ -102,30 +104,38 @@ public class GameProcess {
     }
 
     static boolean checkWinner(int x, int y, Player player) {
-        for (int i = 0; i < gameBoard.length; i++) {
-                if (checkVerticals(i, x, player) ^ checkHorizontals(y, i, player) ^ checkDiagonals(x, y, player)) {
-                    return true;
-                }
+
+        boolean horizontal = true;
+        boolean vertical = true;
+        boolean mainDiagonal = true;
+        boolean secondaryDiagonal = true;
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if (gameBoard[x][i] != player.playingMark) {
+                vertical = false;
+            }
+
+            if (gameBoard[i][y] != player.playingMark) {
+                horizontal = false;
+            }
+
+            if (gameBoard[i][i] != player.playingMark) {
+                mainDiagonal = false;
+            }
+
+            if (gameBoard[i][(BOARD_SIZE - 1) - i] != player.playingMark) {
+                secondaryDiagonal = false;
+            }
         }
-        return false;
+        return horizontal || vertical || mainDiagonal || secondaryDiagonal;
     }
 
-    static boolean checkVerticals(int x, int y, Player player) {
-        if (gameBoard[x][y] != player.playingMark) return false;
-        return y == gameBoard.length - 1;
-    }
-
-    static boolean checkHorizontals(int x, int y, Player player) {
-        if (gameBoard[x][y] != player.playingMark) return false;
-        return x == gameBoard.length - 1;
-    }
-
-    static boolean checkDiagonals(int x, int y, Player player) {
-        if (gameBoard[x][y] != player.playingMark) return false;
-        boolean mainDiagonal = x == gameBoard.length - 1 && y == gameBoard.length - 1;
-        boolean secondaryDiagonal = (x + y) == gameBoard.length - 1 && y == gameBoard.length - 1 && x == 0;
-
-        return mainDiagonal ^ secondaryDiagonal;
+    static boolean checkDraw() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
+                if (gameBoard[i][j] == EMPTY) return false;
+            }
+        }
+        return true;
     }
 
 }
