@@ -12,7 +12,7 @@ public class GameProcess {
     public static char[][] gameBoard = new char[BOARD_SIZE][BOARD_SIZE];
 
     public static void initializeGame() {
-        System.out.println("Choose game mode:\n1. Player vs Player\n2. Player vs Computer\n3. Player vs Computer (Hardcore)");
+        System.out.println("Choose game mode:\n1. Player vs Player\n2. Player vs Computer (will be in next versions)\n");
         System.out.print("Game mode (1/2): ");
         GAME_MODE = scan.next();
 
@@ -26,11 +26,11 @@ public class GameProcess {
                 pvpGame(player1, player2);
                 break;
             case "2":
-                System.out.print("Enter your name: " + Player.playersCount + ": ");
-                Player player = new Player(scan.next(), 'X');
-                initGameBoard();
-                pvcGame(player);
                 break;
+//            System.out.print("Enter your name: " + Player.playersCount + ": ");
+//            Player player = new Player(scan.next(), 'X');
+//            initGameBoard();
+//            pvcGame(player);
         }
 
 
@@ -128,6 +128,8 @@ public class GameProcess {
         }
         return horizontal || vertical || mainDiagonal || secondaryDiagonal;
     }
+
+
 
     static boolean checkDraw() {
         for (int i = 0; i < BOARD_SIZE; i++) {
