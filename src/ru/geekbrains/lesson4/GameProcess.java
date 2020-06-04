@@ -44,11 +44,13 @@ public class GameProcess {
 
     static void pvpGame(Player player1, Player player2) {
         while (true) {
-            System.out.println("Turn number is: " + (turnNumber + 1) + "\nIt's " + (turnNumber % 2 == 0 ? player1.name : player1.name) + " turn!");
+            System.out.println("Turn number is: " + (turnNumber + 1) + "\nIt's " + (turnNumber % 2 == 0 ? player1.name : player2.name) + "'s turn!");
+            printGameBoard();
             System.out.print("Enter the x and y divided by space: ");
             int x;
             int y;
             try {
+
                 x = Integer.parseInt(scan.next());
                 y = Integer.parseInt(scan.next());
             } catch (NumberFormatException e) {
@@ -56,32 +58,28 @@ public class GameProcess {
                 continue;
             }
             turnNumber++;
-
             if (turnNumber % 2 == 0) {
                 makeTurn(x, y, player1);
             } else {
                 makeTurn(x, y, player2);
             }
-            printGameBoard();
+
         }
     }
 
     static void pvcGame(Player player) {
-        if (GAME_MODE.equals("2")) {
-
-        } else if (GAME_MODE.equals("3")) {
-
-        }
 
     }
 
     static void makeTurn(int x, int y, Player player) {
         if (checkInput(x, y) && turnAllowed(x, y)) {
-            gameBoard[x][y] = player.playingMark;
+            gameBoard[y][x] = player.playingMark;
         }
-        if (checkWinner(x, y, player)) {
-            System.out.println("Player " + player.name + " wins!");
-            System.exit(0);
+        if (turnNumber > (gameBoard.length - 1) * 2) {
+            if (checkWinner(x, y, player)) {
+                System.out.println("Player " + player.name + " wins!");
+                System.exit(0);
+            }
         }
     }
 
@@ -105,38 +103,29 @@ public class GameProcess {
 
     static boolean checkWinner(int x, int y, Player player) {
         for (int i = 0; i < gameBoard.length; i++) {
-            for (int j = 0; j < gameBoard.length; j++) {
-                if (gameBoard[i][j] != player.playingMark) {
-                    break;
-                }
-                if (checkVerticals(j) || checkHorizontals(i) || checkDiagonals(i, j)) {
+                if (checkVerticals(i, x, player) ^ checkHorizontals(y, i, player) ^ checkDiagonals(x, y, player)) {
                     return true;
                 }
-
-            }
         }
         return false;
     }
 
-    static boolean checkVerticals(int y) {
+    static boolean checkVerticals(int x, int y, Player player) {
+        if (gameBoard[x][y] != player.playingMark) return false;
         return y == gameBoard.length - 1;
     }
 
-    static boolean checkHorizontals(int x) {
+    static boolean checkHorizontals(int x, int y, Player player) {
+        if (gameBoard[x][y] != player.playingMark) return false;
         return x == gameBoard.length - 1;
     }
 
-    static boolean checkDiagonals(int x, int y) {
-        boolean mainDiagonal = (x - y) == 0 && x == gameBoard.length - 1;
-        boolean secondaryDiagonal;
+    static boolean checkDiagonals(int x, int y, Player player) {
+        if (gameBoard[x][y] != player.playingMark) return false;
+        boolean mainDiagonal = x == gameBoard.length - 1 && y == gameBoard.length - 1;
+        boolean secondaryDiagonal = (x + y) == gameBoard.length - 1 && y == gameBoard.length - 1 && x == 0;
 
-        if (gameBoard.length % 2 == 0) {
-            secondaryDiagonal = (x - y) % gameBoard.length == 0 && y == 0;
-        } else {
-            secondaryDiagonal = (x - y) % gameBoard.length != 0 && y == 0;
-        }
-
-        return mainDiagonal || secondaryDiagonal;
+        return mainDiagonal ^ secondaryDiagonal;
     }
 
 }
