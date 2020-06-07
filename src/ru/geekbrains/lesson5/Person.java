@@ -3,7 +3,7 @@ package ru.geekbrains.lesson5;
 import java.util.*;
 
 public class Person {
-    private String name;
+    private final String name;
     private String position;
     private String email;
     private String phone;
