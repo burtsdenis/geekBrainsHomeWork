@@ -1,0 +1,5 @@
+Denis Burtsev,25,+7123456789,dburtsev@somemail.coru,Developer,60000
+Hilary Barry,55,+77112659193,hbarry@somemail.coru,Manager,30000
+Farhana Rawlings,41,+75145318471,frawlings@somemail.coru,QAEngineer,25000
+John Doe,35,+71126359123,jdoe@somemail.coru,Developer,60000
+Lorem Ipsum,999,+7125152376,lipsum@somemail.coru,DevOps,300000000
