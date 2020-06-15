@@ -6,24 +6,26 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class FileProcessor {
-    static File currentDir = new File("src/ru/geekbrains/lesson7");
+    static String path = "src/ru/geekbrains/lesson7/";
+    static File currentDir = new File(path);
     static FileInputStream fileInputStream;
-    static ArrayList<String> listOfFiles = new ArrayList<>();
     static FileOutputStream fileOutputStream;
     static PrintStream printStream;
 
-    protected static void getAllTextFiles() {
+    protected static ArrayList<String> getAllTextFiles() {
+        ArrayList<String> listOfFiles = new ArrayList<>();
         for (File file : Objects.requireNonNull(currentDir.listFiles())) {
             if (file.getName().contains(".txt") && !file.getName().equals("result.txt")) {
                 listOfFiles.add(file.getAbsoluteFile().toString());
             }
         }
+        return listOfFiles;
     }
 
 
     public static void compileFiles(String resultFile) throws FileNotFoundException {
-        FileProcessor.getAllTextFiles();
-        resultFile = "src/ru/geekbrains/lesson7/" + resultFile;
+        ArrayList<String> listOfFiles = getAllTextFiles();
+        resultFile = path + resultFile;
         fileOutputStream = new FileOutputStream(resultFile, true);
         printStream = new PrintStream(fileOutputStream);
         for (String pathToFile : listOfFiles) {
@@ -36,7 +38,7 @@ public class FileProcessor {
     }
 
     public static boolean findWordInFile(String file, String word) throws FileNotFoundException {
-        file = "src/ru/geekbrains/lesson7/" + file;
+        file = path + file;
         fileInputStream = new FileInputStream(file);
         Scanner scanner = new Scanner(fileInputStream);
         while (scanner.hasNext()) {
@@ -53,6 +55,7 @@ public class FileProcessor {
 
     public static boolean findWordInFile(String word) throws FileNotFoundException {
         int result = 0;
+        ArrayList<String> listOfFiles = getAllTextFiles();
         System.out.println("Iterating in all files in directory: " + currentDir);
         for (String file : listOfFiles) {
             fileInputStream = new FileInputStream(file);
@@ -76,6 +79,7 @@ public class FileProcessor {
     }
 
     public static void addWordToFiles(String word, boolean newLine) throws FileNotFoundException {
+        ArrayList<String> listOfFiles = getAllTextFiles();
         for (String file : listOfFiles) {
             fileOutputStream = new FileOutputStream(file, true);
             printStream = new PrintStream(fileOutputStream);
