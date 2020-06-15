@@ -15,7 +15,7 @@ public class Main {
             compileFiles("result.txt");
             findWordInFile("firstFile.txt", "eiusmod");
             findWordInFile("eiusmod");
-            addWordToFiles("FUUUUUUUCK", true);
+            addWordToFiles("someRandomWord", true);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
