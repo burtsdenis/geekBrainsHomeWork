@@ -2,7 +2,6 @@ package ru.geekbrains.lesson8;
 
 import javax.swing.*;
 import java.awt.*;
-import static ru.geekbrains.lesson8.GameButtons.*;
 
 public class SettingsWindow extends JFrame {
     protected static final int WINDOW_WIDTH = 350;
@@ -26,12 +25,12 @@ public class SettingsWindow extends JFrame {
         int positionX = (int) mainWindowBounds.getCenterX() - WINDOW_WIDTH / 2;
         int positionY = (int) mainWindowBounds.getCenterY() - WINDOW_HEIGHT / 2;
         setLocation(positionX, positionY);
-        add(GameButtons.createApplySettingsButton(this), BorderLayout.SOUTH);
+        add(Buttons.createApplySettingsButton(this), BorderLayout.SOUTH);
         setResizable(false);
         setTitle("Create game");
         setLayout(new GridLayout(8, 1));
-        GameButtons.addGameModeButtons(this);
-        GameButtons.addGameSettings(this);
+        Buttons.addGameModeButtons(this);
+        Buttons.addGameSettings(this);
 
     }
 

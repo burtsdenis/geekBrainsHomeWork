@@ -19,8 +19,8 @@ public class MainWindow extends JFrame {
         this.tctSettingsWindow = new SettingsWindow(this);
 
         JPanel buttonPanel = new JPanel(new GridLayout(1, 2));
-        buttonPanel.add(GameButtons.createStartButton(tctSettingsWindow));
-        buttonPanel.add(GameButtons.createExitButton());
+        buttonPanel.add(Buttons.createStartButton(tctSettingsWindow));
+        buttonPanel.add(Buttons.createExitButton());
         add(buttonPanel, BorderLayout.SOUTH);
 
         GameField tctGameField = new GameField();

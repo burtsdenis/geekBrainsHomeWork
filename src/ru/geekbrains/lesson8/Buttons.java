@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 
 import static ru.geekbrains.lesson8.SettingsWindow.*;
 
-public class GameButtons extends MainWindow {
+public class Buttons {
     protected static JButton createExitButton() {
         JButton exitButton = new JButton("Exit");
         exitButton.addActionListener(new ActionListener() {
