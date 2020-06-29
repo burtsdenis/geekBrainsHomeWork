@@ -1,7 +1,6 @@
 package ru.geekbrains.java2.lesson1;
 
-import ru.geekbrains.java2.lesson1.actions.Jumpable;
-import ru.geekbrains.java2.lesson1.actions.Runnable;
+import ru.geekbrains.java2.lesson1.actions.Movable;
 import ru.geekbrains.java2.lesson1.characters.Cat;
 import ru.geekbrains.java2.lesson1.characters.Human;
 import ru.geekbrains.java2.lesson1.characters.Robot;
@@ -16,7 +15,7 @@ public class Main {
     }
 
     public static void steeplechase() {
-        Object[] participants = {
+        Movable[] participants = {
                 new Cat(10, 10),
                 new Human(10, 10),
                 new Robot(10, 30)
@@ -32,7 +31,7 @@ public class Main {
 
         for (Object participant : participants) {
             for (Obstacles obstacle : obstacleCourse) {
-                boolean result = obstacle.passTheObstacle((Jumpable) participant, (Runnable) participant);
+                boolean result = obstacle.passTheObstacle((Movable) participant);
                 if (!result) break;
             }
             System.out.println();

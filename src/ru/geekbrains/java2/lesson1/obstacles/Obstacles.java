@@ -1,16 +1,15 @@
 package ru.geekbrains.java2.lesson1.obstacles;
 
 
-import ru.geekbrains.java2.lesson1.actions.Jumpable;
-import ru.geekbrains.java2.lesson1.actions.Runnable;
+import ru.geekbrains.java2.lesson1.actions.Movable;
 
 public class Obstacles {
 
-    public boolean passTheObstacle(Jumpable jumpable, Runnable runnable) {
+    public boolean passTheObstacle(Movable movable) {
         if (this instanceof TheWall) {
-            return jumpable.jump(((TheWall) this).height, jumpable.getJumpLimit());
+            return movable.jump(((TheWall) this).height, movable.getJumpLimit());
         } else if (this instanceof Treadmill) {
-            return runnable.run(((Treadmill) this).length, runnable.getRunLimit());
+            return movable.run(((Treadmill) this).length, movable.getRunLimit());
         }
         return false;
     }

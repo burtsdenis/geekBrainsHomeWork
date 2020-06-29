@@ -1,9 +1,8 @@
 package ru.geekbrains.java2.lesson1.characters;
 
-import ru.geekbrains.java2.lesson1.actions.Jumpable;
-import ru.geekbrains.java2.lesson1.actions.Runnable;
+import ru.geekbrains.java2.lesson1.actions.Movable;
 
-public class Robot implements Runnable, Jumpable {
+public class Robot implements Movable {
     private int jumpLimit;
     private int runLimit;
 
@@ -14,18 +13,18 @@ public class Robot implements Runnable, Jumpable {
 
     @Override
     public void jump() {
-        Jumpable.super.jump();
+        Movable.super.jump();
     }
 
     @Override
     public void run() {
-        Runnable.super.run();
+        Movable.super.run();
     }
 
 
     @Override
     public boolean jump(int jumpDistance, int jumpLimit) {
-        return Jumpable.super.jump(jumpDistance, jumpLimit);
+        return Movable.super.jump(jumpDistance, jumpLimit);
     }
 
     @Override
@@ -35,7 +34,7 @@ public class Robot implements Runnable, Jumpable {
 
     @Override
     public boolean run(int runDistance, int runLimit) {
-        return Runnable.super.run(runDistance, runLimit);
+        return Movable.super.run(runDistance, runLimit);
     }
 
     @Override
