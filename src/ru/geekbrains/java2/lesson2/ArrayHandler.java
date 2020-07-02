@@ -26,9 +26,9 @@ public class ArrayHandler {
         int[][] intArray = new int[4][4];
         for (int i = 0; i < array.length; i++) {
             for (int j = 0; j < array[i].length; j++) {
-                if (isInteger(array[i][j])) {
-                    intArray[i][j] = Integer.parseInt(array[i][j]);
-                } else {
+                    try {
+                        intArray[i][j] = Integer.parseInt(array[i][j]);
+                    } catch (NumberFormatException e) {
                     throw new NumberFormatException(array[i][j] +
                             " at line: " + i
                             + " at column: " + j
@@ -47,15 +47,6 @@ public class ArrayHandler {
             }
         }
         return result / 2;
-    }
-
-    public static boolean isInteger(String str) {
-        try {
-            Integer.parseInt(str);
-        } catch (NumberFormatException e) {
-            return false;
-        }
-        return true;
     }
 
     public static boolean checkThatStringIsValid(String string) throws ArraySizeException {
