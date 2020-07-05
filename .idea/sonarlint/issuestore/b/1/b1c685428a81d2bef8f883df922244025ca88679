@@ -1,0 +1,11 @@
+
+—
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(Çµí‘
+k
+java:S1128"IRemove this unused import 'ru.geekbrains.java2.lesson1.characters.Robot'.(şÆ†ôşÿÿÿÿ8ÚĞôÛ¯.
+f
+java:S1128"IRemove this unused import 'ru.geekbrains.java2.lesson1.characters.Human'.(Ú¼ùŸ8ÚĞôÛ¯.
+d
+java:S1128"GRemove this unused import 'ru.geekbrains.java2.lesson1.characters.Cat'.(­ªøÙ8ÚĞôÛ¯.
+
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(óÖ•ú8ŸõøÛ¯.
