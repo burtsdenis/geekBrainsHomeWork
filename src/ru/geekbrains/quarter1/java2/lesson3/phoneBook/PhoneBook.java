@@ -1,9 +1,7 @@
 package ru.geekbrains.quarter1.java2.lesson3.phoneBook;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class PhoneBook {
     private static final HashMap<String, ArrayList<Person>> phoneBook = new HashMap<>();
