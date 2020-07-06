@@ -34,10 +34,13 @@ public class PhoneBook {
         try {
             ArrayList<Person> personsList = phoneBook.get(secName);
             for (Person person : personsList) {
-                if (property.equals("email")) {
-                    properties.add(person.getEmail());
-                } else if (property.equals("phoneNumber")) {
-                    properties.add(person.getPhoneNumber());
+                switch (property) {
+                    case "email":
+                        properties.add(person.getEmail());
+                        break;
+                    case "phoneNumber":
+                        properties.add(person.getPhoneNumber());
+                        break;
                 }
             }
         } catch (NullPointerException e) {
