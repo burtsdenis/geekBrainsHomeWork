@@ -1,5 +1,6 @@
 package ru.geekbrains.quarter1.java2.lesson3.phoneBook;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,17 +9,12 @@ public class PhoneBook {
     private static final HashMap<String, ArrayList<Person>> phoneBook = new HashMap<>();
 
     public static void addPersonToPhoneBook(Person person) {
-        for (Map.Entry<String, ArrayList<Person>> entry : phoneBook.entrySet()) {
-            if (person.getSecondName().equals(entry.getKey())) {
-                entry.getValue().add(person);
-                return;
-            }
+        ArrayList<Person> persons = phoneBook.get(person.getSecondName());
+        if (persons == null) {
+            persons = new ArrayList<>();
         }
-        phoneBook.put(
-                person.getSecondName(),
-                new ArrayList<>()
-        );
-        phoneBook.get(person.getSecondName()).add(person);
+        persons.add(person);
+        phoneBook.put(person.getSecondName(), persons);
     }
 
     public static ArrayList<String> getPhoneNumberBySecondName(String secName) {

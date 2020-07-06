@@ -28,14 +28,14 @@ public class DictionaryHandler {
 
     public static HashMap<String, Integer> getWordsCount(String[] arrayOfWords) {
         HashMap<String,Integer> wordsCount = new HashMap<>();
-        for (String outerWord : arrayOfWords) {
-            int counter = 0;
-            for (String innerWord : arrayOfWords) {
-                if (innerWord.equals(outerWord)) {
-                    counter++;
-                }
+        int counter;
+        for (String word : arrayOfWords) {
+            if (!wordsCount.containsKey(word)) {
+                counter = 1;
+            } else {
+                counter = wordsCount.get(word) + 1;
             }
-            wordsCount.put(outerWord, counter);
+            wordsCount.put(word, counter);
         }
         return wordsCount;
     }
