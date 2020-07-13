@@ -1,18 +1,25 @@
 package ru.geekbrains.quarter1.java2.lesson5;
 
 
+import java.util.Arrays;
+
 public class Main {
-    private static final int SIZE = 1_000_000;
+    private static final int SIZE = 10_000_000;
     private static final int h = SIZE / 2;
+    private static float[] checkedArray = new float[SIZE];
+    private static float[] arrGen2 = new float[SIZE];
 
     public static void main(String[] args) {
         System.out.println(fillArrayWithoutThreads());
         System.out.println(fillArrayWithThreads());
+        System.out.println(fillArrayWithThreadGen2());
+
+        System.out.println(Arrays.equals(checkedArray, arrGen2));
 
     }
 
     public static String fillArrayWithoutThreads() {
-        float[] checkedArray = new float[SIZE];
+
         System.out.print("Starting calculate in single thread!\n");
 
         for (int i = 0; i < SIZE; i++) {
@@ -83,5 +90,48 @@ public class Main {
 
 
         return String.format("Calculated in: \nThread 1: %dms\nThread 2: %dms\n", calcResults[0], calcResults[1]);
+    }
+
+    public static String fillArrayWithThreadGen2() {
+        System.out.print("Starting calculate in two threads (Gen 2)!\n");
+
+        final int[] calcResults = new int[2];
+
+        for (int i = 0; i < SIZE; i++) {
+            arrGen2[i] = 1;
+        }
+
+        Thread t1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                long startCalc = System.currentTimeMillis();
+                for (int i = 0; i < arrGen2.length; i += 2) {
+                    arrGen2[i] = (float) (arrGen2[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                }
+                calcResults[0] = (int) (System.currentTimeMillis() - startCalc);
+            }
+        });
+        Thread t2 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                long startCalc = System.currentTimeMillis();
+                for (int i = 1; i < arrGen2.length; i += 2) {
+                    arrGen2[i] = (float) (arrGen2[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+                }
+                calcResults[1] = (int) (System.currentTimeMillis() - startCalc);
+            }
+        });
+        t1.start();
+        t2.start();
+
+        try {
+            t1.join();
+            t2.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        return String.format("Calculated in: \nThread 1: %dms\nThread 2: %dms\n", calcResults[0], calcResults[1]);
+
     }
 }
