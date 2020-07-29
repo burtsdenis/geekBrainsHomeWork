@@ -58,3 +58,9 @@ steeplechase.
     
     As a result, you should get 3 classes: Main, PhoneBook and Person.
 </details>
+
+<details>
+<summary>Lesson 5</summary>
+
+
+</details>
