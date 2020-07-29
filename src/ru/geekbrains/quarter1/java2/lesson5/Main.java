@@ -6,8 +6,8 @@ import java.util.Arrays;
 public class Main {
     private static final int SIZE = 10_000_000;
     private static final int h = SIZE / 2;
-    private static float[] checkedArray = new float[SIZE];
-    private static float[] arrGen2 = new float[SIZE];
+    private static final float[] checkedArray = new float[SIZE];
+    private static final float[] arrGen2 = new float[SIZE];
 
     public static void main(String[] args) {
         System.out.println(fillArrayWithoutThreads());
@@ -22,13 +22,10 @@ public class Main {
 
         System.out.print("Starting calculate in single thread!\n");
 
-        for (int i = 0; i < SIZE; i++) {
-            checkedArray[i] = 1;
-        }
+        Arrays.fill(checkedArray, 1);
+
         long startCalculating = System.currentTimeMillis();
-        for (int i = 0; i < SIZE; i++) {
-            checkedArray[i] = (float) (checkedArray[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
-        }
+        calculateArray(checkedArray, 0,  1);
 
         return "Calculated in: " + (System.currentTimeMillis() - startCalculating) + "ms\n";
     }
@@ -39,9 +36,9 @@ public class Main {
         final int[] calcResults = new int[2];
 
         float[] arr = new float[SIZE];
-        for (int i = 0; i < SIZE; i++) {
-            arr[i] = 1;
-        }
+
+        Arrays.fill(arr, 1);
+
         float[] array1 = new float[h];
         float[] array2 = new float[h];
 
@@ -57,9 +54,7 @@ public class Main {
             @Override
             public void run() {
                 long startCalc = System.currentTimeMillis();
-                for (int i = 0; i < array1.length; i++) {
-                    array1[i] = (float) (array1[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
-                }
+                calculateArray(array1, 0,  1);
                 calcResults[0] = (int) (System.currentTimeMillis() - startCalc);
             }
         });
@@ -68,10 +63,9 @@ public class Main {
             @Override
             public void run() {
                 long startCalc = System.currentTimeMillis();
-                for (int i = 0; i < array2.length; i++) {
-                    array2[i] = (float) (array2[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
-                }
+                calculateArray(array2, 0, 1);
                 calcResults[1] = (int) (System.currentTimeMillis() - startCalc);
+
             }
         });
         t1.start();
@@ -88,8 +82,7 @@ public class Main {
         System.out.println("Arrays united in: " + (System.currentTimeMillis() - copyStart) + "ms");
 
 
-
-        return String.format("Calculated in: \nThread 1: %dms\nThread 2: %dms\n", calcResults[0], calcResults[1]);
+        return String.format("Calculated in:%dms \nThread 1: %dms\nThread 2: %dms\n", System.currentTimeMillis() - startCopyTime, calcResults[0], calcResults[1]);
     }
 
     public static String fillArrayWithThreadGen2() {
@@ -97,17 +90,15 @@ public class Main {
 
         final int[] calcResults = new int[2];
 
-        for (int i = 0; i < SIZE; i++) {
-            arrGen2[i] = 1;
-        }
+        Arrays.fill(arrGen2, 1);
+
+        long startCalc = System.currentTimeMillis();
 
         Thread t1 = new Thread(new Runnable() {
             @Override
             public void run() {
                 long startCalc = System.currentTimeMillis();
-                for (int i = 0; i < arrGen2.length; i += 2) {
-                    arrGen2[i] = (float) (arrGen2[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
-                }
+                calculateArray(arrGen2,0, 2);
                 calcResults[0] = (int) (System.currentTimeMillis() - startCalc);
             }
         });
@@ -115,12 +106,11 @@ public class Main {
             @Override
             public void run() {
                 long startCalc = System.currentTimeMillis();
-                for (int i = 1; i < arrGen2.length; i += 2) {
-                    arrGen2[i] = (float) (arrGen2[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
-                }
+                calculateArray(arrGen2,1, 2);
                 calcResults[1] = (int) (System.currentTimeMillis() - startCalc);
             }
         });
+
         t1.start();
         t2.start();
 
@@ -131,7 +121,13 @@ public class Main {
             e.printStackTrace();
         }
 
-        return String.format("Calculated in: \nThread 1: %dms\nThread 2: %dms\n", calcResults[0], calcResults[1]);
+        return String.format("Calculated in: %dms\nThread 1: %dms\nThread 2: %dms\n", System.currentTimeMillis() - startCalc, calcResults[0], calcResults[1]);
+    }
 
+    private static float[] calculateArray(float[] arr, int increasedIndex, int startIndex) {
+        for (int i = startIndex; i < arr.length; i += increasedIndex) {
+            arr[i] = (float) (arr[i] * Math.sin(0.2f + i / 5) * Math.cos(0.2f + i / 5) * Math.cos(0.4f + i / 2));
+        }
+        return arr;
     }
 }
